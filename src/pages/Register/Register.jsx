@@ -15,7 +15,9 @@ const Register = () => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=(.*\d){6}).*$/;
 
         //password validation
-        
+
+        console.log(0.1 + 0.2 === 0.3);
+
         
     }
   return (
