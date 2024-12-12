@@ -1,14 +1,31 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import AuthContext from "../../context/AuthContext/AuthContext";
+import jobLogo from "../../assets/jobsLogo.png"
 
 const Navbar = () => {
+  const { user, SingOutUser } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+    SingOutUser()
+    .then(()=> {
+      console.log("Sign out successful");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
+
+  }
   const links = (
     <>
       <li>
-        <a>Item 1</a>
+        <NavLink to={'/'}>Home</NavLink>        
       </li>
-      
       <li>
-        <a>Item 3</a>
+        <NavLink to={'/'}>Home</NavLink>        
+      </li>
+      <li>
+        <NavLink to={'/'}>Home</NavLink>        
       </li>
     </>
   );
@@ -36,19 +53,30 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-           {links}
+            {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">
+          <img src={jobLogo} alt="" />
+          <h3 className="text-3xl">Job Portal</h3>
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {links}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
-        <Link to={'/register'}>Register</Link>
-        <Link to={'/login'} className="btn">Sign In</Link>
+      <div className="navbar-end space-x-2">
+        {user ? (
+          <>
+            <button onClick={handleSignOut} className="btn btn-error">Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to={"/register"}>Register</Link>
+            <Link to={"/login"} className="btn btn-outline p-1 btn-primary">
+              Sign In
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

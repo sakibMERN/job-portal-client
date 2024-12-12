@@ -1,31 +1,30 @@
 import Lottie from "lottie-react";
-import React, { useContext } from "react";
-import registerLottieData from '../../assets/Register.json'
+import LoginLottie from "../../assets/Login.json"
+import { useContext } from "react";
 import AuthContext from "../../context/AuthContext/AuthContext";
 
-const Register = () => {
+const SignIn = () => {
 
-  const {createUser } = useContext(AuthContext);
+    const {signInUser} = useContext(AuthContext);
 
-    const handleRegister = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
         const form = e.target;
-        const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name, email, password);
+        console.log( email, password);
 
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=(.*\d){6}).*$/;
 
         //password validation
 
-        //create new user with email and password
-        createUser(email, password)
+        //Login user 
+        signInUser(email, password)
         .then(result => {
-          console.log(result);
+            console.log("Sign in user" ,result.user);
         })
         .catch(err => {
-          console.log(err.message);
+            console.log(err.message);
         })
 
         
@@ -34,24 +33,12 @@ const Register = () => {
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left w-96">
-          
-          <Lottie animationData={registerLottieData}></Lottie>
+          <Lottie className="w-full" animationData={LoginLottie}></Lottie>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <h1 className="text-5xl font-bold text-center pt-5">Register now!</h1>
-          <form onSubmit={handleRegister} className="card-body">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Name</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Name"
-                name="name"
-                className="input input-bordered"
-                required
-              />
-              </div>
+          <h1 className="text-5xl font-bold text-center pt-5">Login now!</h1>
+          <form onSubmit={handleLogin} className="card-body">
+            
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -82,7 +69,7 @@ const Register = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Register</button>
+              <button className="btn btn-primary">Login</button>
             </div>
           </form>
         </div>
@@ -91,4 +78,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default SignIn;
