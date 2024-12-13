@@ -2,6 +2,7 @@ import Lottie from "lottie-react";
 import LoginLottie from "../../assets/Login.json"
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext/AuthContext";
+import SocialLogin from "../shared/SocialLogin";
 
 const SignIn = () => {
 
@@ -37,7 +38,7 @@ const SignIn = () => {
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <h1 className="text-5xl font-bold text-center pt-5">Login now!</h1>
-          <form onSubmit={handleLogin} className="card-body">
+          <form onSubmit={handleLogin} className="card-body pb-0">
             
             <div className="form-control">
               <label className="label">
@@ -72,6 +73,7 @@ const SignIn = () => {
               <button className="btn btn-primary">Login</button>
             </div>
           </form>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>
