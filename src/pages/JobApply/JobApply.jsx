@@ -1,32 +1,55 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-
+import Swal from "sweetalert2";
 
 const JobApply = () => {
-    const {user} = useAuth();
-    
-    const {id} = useParams();
-    // console.log(id, user);
+  const { user } = useAuth();
 
+  const { id } = useParams();
+  const navigate = useNavigate();
+  // console.log(id, user);
 
-    const submitJobApplication = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const linkedIn = form.linkedIn.value;
-        const github = form.github.value;
-        const resume = form.portfolio.value;
+  const submitJobApplication = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const linkedIn = form.linkedIn.value;
+    const github = form.github.value;
+    const resume = form.portfolio.value;
 
-        // console.log(linkedIn, github, resume);
+    // console.log(linkedIn, github, resume);
 
-        const jobApplication = {
-            job_id: id,
-            applicant_email: user.email,
-            linkedIn,
-            github,
-            resume
+    const jobApplication = {
+      job_id: id,
+      applicant_email: user.email,
+      linkedIn,
+      github,
+      resume,
+    };
+
+    fetch("http://localhost:5000/job-applications", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jobApplication),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your application has been submitted",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate('/myApplication');
+        } else {
+          return alert("apply failed");
         }
-        console.log(jobApplication);
-    }
+      });
+  };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
