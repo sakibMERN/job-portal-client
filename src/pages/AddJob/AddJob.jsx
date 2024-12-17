@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 
 const AddJob = () => {
   const handleAddJob = (e) => {
@@ -51,6 +52,27 @@ const AddJob = () => {
     }
 
     console.log(newJob);
+
+    fetch('http://localhost:5000/jobs', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newJob)
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      if(data.insertedId){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Job Added Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    })
   };
   return (
     <div className="border border-blue-900 w-9/12 mx-auto">
@@ -271,7 +293,7 @@ const AddJob = () => {
           {/* HR Email */}
           <div className="form-control flex-1">
             <label className="label">
-              <span className="label-text font-semibold">Job Location</span>
+              <span className="label-text font-semibold">HR Email</span>
             </label>
             <input
               type="email"
