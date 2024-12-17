@@ -1,6 +1,57 @@
 import React from "react";
 
 const AddJob = () => {
+  const handleAddJob = (e) => {
+    e.preventDefault();
+
+    // //Step-1
+    // const newFormData = new FormData(e.target);
+    // const jsonData = newFormData.entries();
+    // const initialData = Object.fromEntries(jsonData);
+    // console.log(initialData);
+
+    // let {max, min, deadline, currency, ...newJob} = initialData;
+    //  newJob.deadline = new Date(deadline).getTime();
+    //  newJob.salaryRange = {
+    //   min: Number(max), 
+    //   max: Number(min), 
+    //   currency
+    //  }
+
+    // console.log(newJob);
+    
+
+    // Step 2
+    const newFormData = new FormData(e.target);
+
+    const initialData = Object.fromEntries(newFormData.entries());
+
+    //convert date to millisecond
+    if (initialData.deadline) {
+      initialData.deadline = new Date(initialData.deadline).getTime();
+      //convert string to number
+      if (initialData.max) {
+        initialData.max = Number(initialData.max);
+        //convert number to string
+        if (initialData.min) {
+          initialData.min = Number(initialData.min);
+        }
+      }
+    }
+    console.log(initialData);
+
+    //Modify object
+    const {max, min, currency , ...newJob} = initialData;
+    newJob.requirement = newJob.requirement.split("\n");
+    newJob.responsibilities = newJob.responsibilities.split("\n");    
+    newJob.salaryRange = {
+      min,
+      max, 
+      currency
+    }
+
+    console.log(newJob);
+  };
   return (
     <div className="border border-blue-900 w-9/12 mx-auto">
       <div className="bg-blue-900 h-36 p-5 flex items-center justify-center gap-2">
@@ -9,7 +60,7 @@ const AddJob = () => {
           Post a new job
         </h2>
       </div>
-      <form className="card-body space-y-5">
+      <form onSubmit={handleAddJob} className="card-body space-y-5">
         {/* Job Title */}
         <div className="form-control">
           <label className="label">
@@ -57,7 +108,7 @@ const AddJob = () => {
             <label className="label">
               <span className="label-text font-semibold">Job Type</span>
             </label>
-            <select className="select select-bordered" required>
+            <select name="job_type" className="select select-bordered" required>
               <option disabled selected>
                 Pick a job type
               </option>
@@ -75,7 +126,11 @@ const AddJob = () => {
             <label className="label">
               <span className="label-text font-semibold">Job Field</span>
             </label>
-            <select className="select select-bordered" required>
+            <select
+              name="job_field"
+              className="select select-bordered"
+              required
+            >
               <option disabled selected>
                 Pick a job Field
               </option>
@@ -129,7 +184,11 @@ const AddJob = () => {
 
             {/* Currency */}
             <div className="form-control">
-              <select className="select select-bordered" required>
+              <select
+                name="currency"
+                className="select select-bordered"
+                required
+              >
                 <option disabled selected>
                   Pick Currency
                 </option>
@@ -167,46 +226,61 @@ const AddJob = () => {
             required
           ></textarea>
         </div>
-        {/* Job Deadline */}
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text font-semibold">Job Location</span>
-          </label>
-          <input
-            type="date"
-            name="deadline"
-            placeholder="Application Deadline"
-            className="input input-bordered"
-            required
-          />
+        <div className="flex gap-5">
+          {/* Job Deadline */}
+          <div className="form-control flex-1">
+            <label className="label">
+              <span className="label-text font-semibold">Job Location</span>
+            </label>
+            <input
+              type="date"
+              name="deadline"
+              placeholder="Application Deadline"
+              className="input input-bordered"
+              required
+            />
+          </div>
+          {/* Company Logo */}
+          <div className="form-control flex-1">
+            <label className="label">
+              <span className="label-text font-semibold">Company Logo URL</span>
+            </label>
+            <input
+              type="url"
+              name="logo_url"
+              placeholder="Company Logo URL"
+              className="input input-bordered"
+              required
+            />
+          </div>
         </div>
         <div className="flex gap-5">
           {/* HR Name */}
-        <div className="form-control flex-1">
-          <label className="label">
-            <span className="label-text font-semibold">HR Name</span>
-          </label>
-          <input
-            type="text"
-            name="hrName"
-            placeholder="Hr Name"
-            className="input input-bordered"
-            required
-          />
-        </div>
+          <div className="form-control flex-1">
+            <label className="label">
+              <span className="label-text font-semibold">HR Name</span>
+            </label>
+            <input
+              type="text"
+              name="hr_name"
+              placeholder="Hr Name"
+              className="input input-bordered"
+              required
+            />
+          </div>
           {/* HR Email */}
-        <div className="form-control flex-1">
-          <label className="label">
-            <span className="label-text font-semibold">Job Location</span>
-          </label>
-          <input
-            type="email"
-            name="hrEmail"
-            placeholder="HR Email"
-            className="input input-bordered"
-            required
-          />
-        </div>
+          <div className="form-control flex-1">
+            <label className="label">
+              <span className="label-text font-semibold">Job Location</span>
+            </label>
+            <input
+              type="email"
+              name="hr_email"
+              placeholder="HR Email"
+              className="input input-bordered"
+              required
+            />
+          </div>
         </div>
         <div className="form-control mt-6">
           <button className="btn btn-outline btn-accent font-semibold">
