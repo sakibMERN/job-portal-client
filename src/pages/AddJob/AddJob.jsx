@@ -1,7 +1,11 @@
 import React from "react";
 import Swal from "sweetalert2";
+import useAuth from './../../hooks/useAuth';
+import { useNavigate } from "react-router-dom";
 
 const AddJob = () => {
+  const {user} = useAuth();
+  const navigate = useNavigate();
   const handleAddJob = (e) => {
     e.preventDefault();
 
@@ -28,8 +32,8 @@ const AddJob = () => {
     const initialData = Object.fromEntries(newFormData.entries());
 
     //convert date to millisecond
-    if (initialData.deadline) {
-      initialData.deadline = new Date(initialData.deadline).getTime();
+    if (initialData.applicationDeadline) {
+      initialData.applicationDeadline = new Date(initialData.applicationDeadline).getTime();
       //convert string to number
       if (initialData.max) {
         initialData.max = Number(initialData.max);
@@ -71,6 +75,7 @@ const AddJob = () => {
           showConfirmButton: false,
           timer: 1500
         });
+        navigate('/myPostedJobs');
       }
     })
   };
@@ -110,6 +115,7 @@ const AddJob = () => {
             required
           />
         </div>
+
         {/* Job Location */}
         <div className="form-control">
           <label className="label">
@@ -130,8 +136,8 @@ const AddJob = () => {
             <label className="label">
               <span className="label-text font-semibold">Job Type</span>
             </label>
-            <select name="job_type" className="select select-bordered" required>
-              <option disabled selected>
+            <select name="job_type" defaultValue={"Pick a job type"} className="select select-bordered" required>
+              <option disabled>
                 Pick a job type
               </option>
               <option>Full Time</option>
@@ -150,10 +156,11 @@ const AddJob = () => {
             </label>
             <select
               name="job_field"
+              defaultValue={"Pick a job Field"}
               className="select select-bordered"
               required
             >
-              <option disabled selected>
+              <option disabled>
                 Pick a job Field
               </option>
               <option>Engineering</option>
@@ -208,10 +215,11 @@ const AddJob = () => {
             <div className="form-control">
               <select
                 name="currency"
+                defaultValue="Pick Currency"
                 className="select select-bordered"
                 required
               >
-                <option disabled selected>
+                <option disabled>
                   Pick Currency
                 </option>
                 <option>BDT</option>
@@ -252,11 +260,11 @@ const AddJob = () => {
           {/* Job Deadline */}
           <div className="form-control flex-1">
             <label className="label">
-              <span className="label-text font-semibold">Job Location</span>
+              <span className="label-text font-semibold">Application Deadline</span>
             </label>
             <input
               type="date"
-              name="deadline"
+              name="applicationDeadline"
               placeholder="Application Deadline"
               className="input input-bordered"
               required
@@ -298,6 +306,7 @@ const AddJob = () => {
             <input
               type="email"
               name="hr_email"
+              defaultValue={user?.email}
               placeholder="HR Email"
               className="input input-bordered"
               required

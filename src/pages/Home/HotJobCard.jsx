@@ -27,12 +27,12 @@ const HotJobCard = ({ job }) => {
       </div>
       <div className="card-body p-5">
         <h2 className="card-title">{title}
-        <div className={`badge ${status === 'active' ? "badge-primary" :  badge-secondary}`}>{status}</div>
+        <div className={`badge ${status === 'active' ? "badge-primary" :  "badge-secondary"}`}>{status}</div>
         </h2>
         <p>{description}</p>
         <div className="flex flex-wrap gap-2 font-medium">
             {
-                requirements.map(skill => <p className="border rounded-lg text-center opacity-80 hover:text-blue-400 hover:opacity-100">{skill}</p>)
+                requirements?.map(skill => <p className="border rounded-lg text-center opacity-80 hover:text-blue-400 hover:opacity-100">{skill}</p>)
             }
         </div>
         <div className="card-actions justify-end items-center mt-2">
